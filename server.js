@@ -5,12 +5,15 @@ var port = process.env.EXPRESS_PORT || 80;
 
 var app = express();
 
+//place new modules here
 var parsetime = require(path.resolve(modPath,'timestamp'));
+var whoami = require(path.resolve(modPath,'whoami'));
 
 app.get('/',function(req,res){
   res.send('hello world');
 });
 app.use('/time',parsetime);
+app.get('/whoami', whoami);
 
 app.listen(port, function(){
   console.log('Express server started on port ' + port);
