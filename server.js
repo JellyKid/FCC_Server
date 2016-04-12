@@ -4,6 +4,7 @@ var express = require('express');
 var port = process.env.EXPRESS_PORT || 80;
 
 var app = express();
+app.set('trust proxy', 'loopback');
 
 //place new modules here
 var parsetime = require(path.resolve(modPath,'timestamp'));
@@ -16,7 +17,7 @@ app.get('/',function(req,res){
 });
 app.use('/time',parsetime);
 app.get('/whoami', whoami);
-app.use('/short',shorturl);
+app.use('/short',shorturl.setDefaults,shorturl.checkUrlDb,shorturl.checkShortDb,shorturl.newURl);
 app.get('/imgsearch/:search',imgsearch.getClientId,imgsearch.buildPath, imgsearch.newRequest, imgsearch.sendData,imgsearch.logSearch);
 app.get('/latest/imgsearch', imgsearch.getLog);
 
